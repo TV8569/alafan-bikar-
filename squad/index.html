@@ -5,28 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SQUAD | ALAFAN BIKAR</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- فونت وزیر متن برای ظاهر بهتر فارسی و اوربیترون برای اعداد و عناوین -->
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
 
         :root {
-            --bg-deep: #08080c;
-            --card-bg: rgba(15, 15, 25, 0.7);
+            --bg-deep: #050508;
+            --card-bg: rgba(20, 20, 35, 0.6);
             --neon-red: #ff2d55;
             --neon-blue: #00f2ff;
-            --neon-purple: #bc13fe;
+            --neon-yellow: #f3ff00;
             --text-white: #ffffff;
-            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         * {
             box-sizing: border-box;
             user-select: none;
+            scrollbar-width: thin;
+            scrollbar-color: var(--neon-red) var(--bg-deep);
         }
 
         body {
             background-color: var(--bg-deep);
             color: var(--text-white);
-            font-family: 'Segoe UI', Tahoma, sans-serif;
+            font-family: 'Vazirmatn', sans-serif;
             margin: 0;
             padding: 80px 20px;
             display: flex;
@@ -34,107 +38,102 @@
             align-items: center;
             overflow-x: hidden;
             background-image: 
-                radial-gradient(circle at 10% 20%, rgba(255, 45, 85, 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(0, 242, 255, 0.05) 0%, transparent 40%);
+                radial-gradient(circle at 5% 5%, rgba(255, 45, 85, 0.1) 0%, transparent 30%),
+                radial-gradient(circle at 95% 95%, rgba(0, 242, 255, 0.1) 0%, transparent 30%);
         }
 
-        /* انیمیشن پارتیکل‌های پس‌زمینه ساده */
-        body::after {
-            content: "";
+        /* پس‌زمینه متحرک پیشرفته */
+        .bg-glow {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: radial-gradient(white 1px, transparent 1px);
-            background-size: 50px 50px;
-            opacity: 0.03;
             z-index: -1;
-            animation: moveBg 100s linear infinite;
+            background: linear-gradient(45deg, transparent 48%, rgba(255, 45, 85, 0.05) 50%, transparent 52%);
+            background-size: 200% 200%;
+            animation: sweep 10s linear infinite;
         }
 
-        @keyframes moveBg {
-            from { background-position: 0 0; }
-            to { background-position: 500px 1000px; }
+        @keyframes sweep {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
         }
 
         .header {
-            margin-bottom: 80px;
+            margin-bottom: 100px;
             text-align: center;
-            position: relative;
         }
 
         .header h1 {
             font-family: 'Orbitron', sans-serif;
-            font-size: clamp(3rem, 8vw, 5rem);
+            font-size: clamp(3.5rem, 10vw, 6rem);
             font-weight: 900;
-            letter-spacing: 15px;
+            letter-spacing: 20px;
             margin: 0;
-            background: linear-gradient(to bottom, #fff 30%, var(--neon-red));
+            text-transform: uppercase;
+            background: linear-gradient(to right, #fff, var(--neon-red), #fff);
+            background-size: 200% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 15px rgba(255, 45, 85, 0.5));
-            animation: pulse 2s ease-in-out infinite alternate;
+            animation: shine 5s linear infinite;
+            filter: drop-shadow(0 0 20px rgba(255, 45, 85, 0.5));
         }
 
-        @keyframes pulse {
-            from { transform: scale(1); filter: drop-shadow(0 0 15px rgba(255, 45, 85, 0.3)); }
-            to { transform: scale(1.02); filter: drop-shadow(0 0 25px rgba(255, 45, 85, 0.6)); }
+        @keyframes shine {
+            to { background-position: 200% center; }
         }
 
         .squad-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 50px;
             width: 100%;
-            max-width: 1300px;
+            max-width: 1400px;
             padding: 20px;
         }
 
         .member-card {
             background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(25px);
             border-radius: 40px;
-            padding: 40px 30px;
+            padding: 50px 30px 40px;
             transition: var(--transition);
             position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
-            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
 
+        /* افکت Border متحرک هنگام هاور */
         .member-card::before {
             content: "";
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(transparent, transparent, var(--neon-red), transparent);
-            animation: rotate 6s linear infinite;
+            inset: -2px;
+            background: linear-gradient(45deg, var(--neon-red), var(--neon-blue), var(--neon-red));
+            border-radius: 42px;
+            z-index: -1;
             opacity: 0;
             transition: opacity 0.3s;
-            z-index: 0;
+        }
+
+        .member-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: transparent;
         }
 
         .member-card:hover::before {
-            opacity: 0.3;
+            opacity: 1;
         }
 
-        .member-card::after {
-            content: "";
+        .card-inner-bg {
             position: absolute;
-            inset: 2px;
+            inset: 0;
             background: var(--bg-deep);
-            border-radius: 38px;
+            border-radius: 40px;
             z-index: 0;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
         }
 
         .card-content {
@@ -148,120 +147,122 @@
 
         .profile-container {
             position: relative;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
         }
 
         .profile-img {
-            width: 160px;
-            height: 160px;
-            border-radius: 50%;
+            width: 170px;
+            height: 170px;
+            border-radius: 35% 65% 70% 30% / 30% 30% 70% 70%;
             object-fit: cover;
-            border: 3px solid transparent;
-            background: linear-gradient(var(--bg-deep), var(--bg-deep)) padding-box,
-                        linear-gradient(45deg, var(--neon-red), var(--neon-blue)) border-box;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            animation: morph 8s ease-in-out infinite;
             transition: var(--transition);
         }
 
+        @keyframes morph {
+            0% { border-radius: 35% 65% 70% 30% / 30% 30% 70% 70%; }
+            50% { border-radius: 65% 35% 30% 70% / 70% 70% 30% 30%; }
+            100% { border-radius: 35% 65% 70% 30% / 30% 30% 70% 70%; }
+        }
+
         .member-card:hover .profile-img {
-            transform: scale(1.1) rotate(5deg);
-            box-shadow: 0 0 30px var(--neon-red);
+            border-radius: 50%;
+            border-color: var(--neon-red);
+            box-shadow: 0 0 40px var(--neon-red);
         }
 
         .rank-tag {
             position: absolute;
-            bottom: -10px;
+            bottom: -15px;
             left: 50%;
             transform: translateX(-50%);
-            background: linear-gradient(90deg, var(--neon-red), #ff5e7e);
-            color: #fff;
-            padding: 6px 20px;
-            border-radius: 12px;
-            font-size: 0.8rem;
+            background: #fff;
+            color: #000;
+            padding: 8px 24px;
+            border-radius: 10px;
+            font-size: 0.85rem;
             font-weight: 900;
             font-family: 'Orbitron', sans-serif;
-            box-shadow: 0 5px 15px rgba(255, 45, 85, 0.4);
-            white-space: nowrap;
+            letter-spacing: 2px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
 
         .details-container {
             width: 100%;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 25px;
-            padding: 20px;
-            margin-top: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 15px;
         }
 
         .info-item {
             display: flex;
             align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .info-item:last-child { border: none; }
-
         .info-item i {
-            color: var(--neon-blue);
+            color: var(--neon-red);
             margin-left: 15px;
-            font-size: 1.1rem;
-            filter: drop-shadow(0 0 5px var(--neon-blue));
+            font-size: 1.2rem;
+            filter: drop-shadow(0 0 8px var(--neon-red));
         }
 
         .key {
-            color: #888;
-            font-size: 0.85rem;
+            color: #777;
+            font-size: 0.9rem;
+            font-weight: 300;
             margin-left: auto;
         }
 
         .val {
             color: #fff;
-            font-size: 1rem;
-            font-weight: 600;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+            font-size: 1.05rem;
+            font-weight: 700;
+            font-family: 'Vazirmatn', sans-serif;
+        }
+
+        /* استایل خاص برای مقادیر عددی و انگلیسی */
+        .val.en {
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+            font-size: 0.95rem;
         }
 
         .description-box {
             width: 100%;
-            margin-top: 25px;
-            padding: 15px;
-            background: rgba(255, 45, 85, 0.05);
-            border-right: 3px solid var(--neon-red);
-            border-radius: 0 10px 10px 0;
+            margin-top: 30px;
+            padding: 20px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.03));
+            border-right: 4px solid var(--neon-blue);
+            border-radius: 4px;
         }
 
         .description-title {
             display: block;
-            color: var(--neon-red);
-            font-size: 0.65rem;
+            color: var(--neon-blue);
+            font-size: 0.75rem;
             font-weight: 900;
-            margin-bottom: 5px;
-            letter-spacing: 2px;
+            margin-bottom: 10px;
+            letter-spacing: 3px;
             font-family: 'Orbitron', sans-serif;
         }
 
         .description-box p {
-            font-size: 0.95rem;
-            color: #ddd;
-            line-height: 1.6;
+            font-size: 1rem;
+            color: #ccc;
+            line-height: 1.8;
             margin: 0;
-            font-style: italic;
         }
 
-        /* ریسپانسیو */
         @media (max-width: 768px) {
-            .squad-grid {
-                grid-template-columns: 1fr;
-            }
-            .header h1 {
-                font-size: 3rem;
-                letter-spacing: 8px;
-            }
+            .squad-grid { grid-template-columns: 1fr; }
+            .header h1 { font-size: 3rem; letter-spacing: 10px; }
         }
     </style>
 </head>
 <body>
+
+    <div class="bg-glow"></div>
 
     <div class="header">
         <h1>SQUAD</h1>
@@ -271,19 +272,20 @@
         
         <!-- علیرضا -->
         <div class="member-card">
+            <div class="card-inner-bg"></div>
             <div class="card-content">
                 <div class="profile-container">
                     <img src="https://s21.uupload.ir/files/amirabbas8585/Alafan%20Bikar/photo_2026-02-25_11-57-00.jpg" alt="علیرضا" class="profile-img">
                     <div class="rank-tag">HONOR</div>
                 </div>
                 <div class="details-container">
-                    <div class="info-item"><i class="fa-solid fa-id-card"></i><span class="key">نام:</span><span class="val">علیرضا مردانلو</span></div>
-                    <div class="info-item"><i class="fa-solid fa-mask"></i><span class="key">لقب:</span><span class="val">حاج فیمکس</span></div>
-                    <div class="info-item"><i class="fa-solid fa-map-location-dot"></i><span class="key">شهر:</span><span class="val">تهران</span></div>
-                    <div class="info-item"><i class="fa-solid fa-hourglass-half"></i><span class="key">سن:</span><span class="val">21</span></div>
+                    <div class="info-item"><i class="fa-solid fa-user-ninja"></i><span class="key">نام:</span><span class="val">علیرضا مردانلو</span></div>
+                    <div class="info-item"><i class="fa-solid fa-bolt"></i><span class="key">لقب:</span><span class="val">حاج فیمکس</span></div>
+                    <div class="info-item"><i class="fa-solid fa-location-arrow"></i><span class="key">شهر:</span><span class="val">تهران</span></div>
+                    <div class="info-item"><i class="fa-solid fa-calendar-check"></i><span class="key">تولد:</span><span class="val en">1383/08/07</span></div>
                 </div>
                 <div class="description-box">
-                    <span class="description-title">MISSION</span>
+                    <span class="description-title">ABOUT ME</span>
                     <p>Haval Boy</p>
                 </div>
             </div>
@@ -291,19 +293,20 @@
 
         <!-- علی -->
         <div class="member-card">
+            <div class="card-inner-bg"></div>
             <div class="card-content">
                 <div class="profile-container">
                     <img src="https://s21.uupload.ir/files/amirabbas8585/Alafan%20Bikar/photo_2026-02-25_12-34-55.jpg" alt="علی" class="profile-img">
                     <div class="rank-tag">VAMPIRE</div>
                 </div>
                 <div class="details-container">
-                    <div class="info-item"><i class="fa-solid fa-id-card"></i><span class="key">نام:</span><span class="val">علی نیک فر</span></div>
-                    <div class="info-item"><i class="fa-solid fa-mask"></i><span class="key">لقب:</span><span class="val">Okhtapoo3</span></div>
-                    <div class="info-item"><i class="fa-solid fa-map-location-dot"></i><span class="key">شهر:</span><span class="val">گرگان</span></div>
-                    <div class="info-item"><i class="fa-solid fa-hourglass-half"></i><span class="key">سن:</span><span class="val">19</span></div>
+                    <div class="info-item"><i class="fa-solid fa-user-ninja"></i><span class="key">نام:</span><span class="val">علی نیک فر</span></div>
+                    <div class="info-item"><i class="fa-solid fa-bolt"></i><span class="key">لقب:</span><span class="val">Okhtapoo3</span></div>
+                    <div class="info-item"><i class="fa-solid fa-location-arrow"></i><span class="key">شهر:</span><span class="val">گرگان</span></div>
+                    <div class="info-item"><i class="fa-solid fa-calendar-check"></i><span class="key">تولد:</span><span class="val en">1385/02/31</span></div>
                 </div>
                 <div class="description-box">
-                    <span class="description-title">MISSION</span>
+                    <span class="description-title">ABOUT ME</span>
                     <p>Always Sleeping<br>Music Lover</p>
                 </div>
             </div>
@@ -311,19 +314,20 @@
 
         <!-- آرمان -->
         <div class="member-card">
+            <div class="card-inner-bg"></div>
             <div class="card-content">
                 <div class="profile-container">
                     <img src="https://s21.uupload.ir/files/amirabbas8585/Alafan%20Bikar/photo_2026-02-25_12-12-03.jpg" alt="آرمان" class="profile-img">
                     <div class="rank-tag">OTAKU</div>
                 </div>
                 <div class="details-container">
-                    <div class="info-item"><i class="fa-solid fa-id-card"></i><span class="key">نام:</span><span class="val">آرمان قورتانی</span></div>
-                    <div class="info-item"><i class="fa-solid fa-mask"></i><span class="key">لقب:</span><span class="val">هانکامی فن</span></div>
-                    <div class="info-item"><i class="fa-solid fa-map-location-dot"></i><span class="key">شهر:</span><span class="val">اهواز</span></div>
-                    <div class="info-item"><i class="fa-solid fa-hourglass-half"></i><span class="key">سن:</span><span class="val">16</span></div>
+                    <div class="info-item"><i class="fa-solid fa-user-ninja"></i><span class="key">نام:</span><span class="val">آرمان قورتانی</span></div>
+                    <div class="info-item"><i class="fa-solid fa-bolt"></i><span class="key">لقب:</span><span class="val">هانکامی فن</span></div>
+                    <div class="info-item"><i class="fa-solid fa-location-arrow"></i><span class="key">شهر:</span><span class="val">اهواز</span></div>
+                    <div class="info-item"><i class="fa-solid fa-calendar-check"></i><span class="key">تولد:</span><span class="val en">1388/03/03</span></div>
                 </div>
                 <div class="description-box">
-                    <span class="description-title">MISSION</span>
+                    <span class="description-title">ABOUT ME</span>
                     <p>Saghi Porn</p>
                 </div>
             </div>
@@ -331,19 +335,20 @@
 
         <!-- امیر عباس -->
         <div class="member-card">
+            <div class="card-inner-bg"></div>
             <div class="card-content">
                 <div class="profile-container">
                     <img src="https://s21.uupload.ir/files/amirabbas8585/Alafan%20Bikar/f2ca18_24eda918-24۲۰۲۴۰۹۱۸-۱۸۱۲۰۹.jpg" alt="امیر عباس" class="profile-img">
                     <div class="rank-tag">ROOT</div>
                 </div>
                 <div class="details-container">
-                    <div class="info-item"><i class="fa-solid fa-id-card"></i><span class="key">نام:</span><span class="val">امیر عباس خالصی</span></div>
-                    <div class="info-item"><i class="fa-solid fa-mask"></i><span class="key">لقب:</span><span class="val">عبث</span></div>
-                    <div class="info-item"><i class="fa-solid fa-map-location-dot"></i><span class="key">شهر:</span><span class="val">سمنان</span></div>
-                    <div class="info-item"><i class="fa-solid fa-hourglass-half"></i><span class="key">سن:</span><span class="val">15</span></div>
+                    <div class="info-item"><i class="fa-solid fa-user-ninja"></i><span class="key">نام:</span><span class="val">امیر عباس خالصی</span></div>
+                    <div class="info-item"><i class="fa-solid fa-bolt"></i><span class="key">لقب:</span><span class="val">عبث</span></div>
+                    <div class="info-item"><i class="fa-solid fa-location-arrow"></i><span class="key">شهر:</span><span class="val">سمنان</span></div>
+                    <div class="info-item"><i class="fa-solid fa-calendar-check"></i><span class="key">تولد:</span><span class="val en">1389/01/28</span></div>
                 </div>
                 <div class="description-box">
-                    <span class="description-title">MISSION</span>
+                    <span class="description-title">ABOUT ME</span>
                     <p>Always Hungry</p>
                 </div>
             </div>
@@ -351,19 +356,20 @@
 
         <!-- دانیال -->
         <div class="member-card">
+            <div class="card-inner-bg"></div>
             <div class="card-content">
                 <div class="profile-container">
                     <img src="https://s21.uupload.ir/files/amirabbas8585/Alafan%20Bikar/photo_2026-02-25_12-48-08.jpg" alt="دانیال" class="profile-img">
                     <div class="rank-tag">GORB</div>
                 </div>
                 <div class="details-container">
-                    <div class="info-item"><i class="fa-solid fa-id-card"></i><span class="key">نام:</span><span class="val">دانیال ملک علائی</span></div>
-                    <div class="info-item"><i class="fa-solid fa-mask"></i><span class="key">لقب:</span><span class="val">ملک</span></div>
-                    <div class="info-item"><i class="fa-solid fa-map-location-dot"></i><span class="key">شهر:</span><span class="val">سمنان</span></div>
-                    <div class="info-item"><i class="fa-solid fa-hourglass-half"></i><span class="key">سن:</span><span class="val">15</span></div>
+                    <div class="info-item"><i class="fa-solid fa-user-ninja"></i><span class="key">نام:</span><span class="val">دانیال ملک علائی</span></div>
+                    <div class="info-item"><i class="fa-solid fa-bolt"></i><span class="key">لقب:</span><span class="val">ملک</span></div>
+                    <div class="info-item"><i class="fa-solid fa-location-arrow"></i><span class="key">شهر:</span><span class="val">سمنان</span></div>
+                    <div class="info-item"><i class="fa-solid fa-calendar-check"></i><span class="key">تولد:</span><span class="val en">1389/02/28</span></div>
                 </div>
                 <div class="description-box">
-                    <span class="description-title">MISSION</span>
+                    <span class="description-title">ABOUT ME</span>
                     <p>Mooye Cherokideh Ro Khayeh Sevom Abbas</p>
                 </div>
             </div>
@@ -371,19 +377,20 @@
 
         <!-- رادمهر -->
         <div class="member-card">
+            <div class="card-inner-bg"></div>
             <div class="card-content">
                 <div class="profile-container">
                     <img src="https://s21.uupload.ir/files/amirabbas8585/Alafan%20Bikar/photo_2026-02-25_13-36-58.jpg" alt="رادمهر" class="profile-img">
                     <div class="rank-tag">FEMBOY</div>
                 </div>
                 <div class="details-container">
-                    <div class="info-item"><i class="fa-solid fa-id-card"></i><span class="key">نام:</span><span class="val">رادمهر مصباحیان</span></div>
-                    <div class="info-item"><i class="fa-solid fa-mask"></i><span class="key">لقب:</span><span class="val">Mr.cheat</span></div>
-                    <div class="info-item"><i class="fa-solid fa-map-location-dot"></i><span class="key">شهر:</span><span class="val">سمنان</span></div>
-                    <div class="info-item"><i class="fa-solid fa-hourglass-half"></i><span class="key">سن:</span><span class="val">15</span></div>
+                    <div class="info-item"><i class="fa-solid fa-user-ninja"></i><span class="key">نام:</span><span class="val">رادمهر مصباحیان</span></div>
+                    <div class="info-item"><i class="fa-solid fa-bolt"></i><span class="key">لقب:</span><span class="val">Mr.cheat</span></div>
+                    <div class="info-item"><i class="fa-solid fa-location-arrow"></i><span class="key">شهر:</span><span class="val">سمنان</span></div>
+                    <div class="info-item"><i class="fa-solid fa-calendar-check"></i><span class="key">تولد:</span><span class="val en">1389/04/15</span></div>
                 </div>
                 <div class="description-box">
-                    <span class="description-title">MISSION</span>
+                    <span class="description-title">ABOUT ME</span>
                     <p>Barde Jensi Danial</p>
                 </div>
             </div>
@@ -391,19 +398,20 @@
 
         <!-- محمد جواد -->
         <div class="member-card">
+            <div class="card-inner-bg"></div>
             <div class="card-content">
                 <div class="profile-container">
                     <img src="https://s21.uupload.ir/files/amirabbas8585/Alafan%20Bikar/img_20250924_220959_027_nxbp.jpg" alt="محمد جواد" class="profile-img">
                     <div class="rank-tag">OTAKU</div>
                 </div>
                 <div class="details-container">
-                    <div class="info-item"><i class="fa-solid fa-id-card"></i><span class="key">نام:</span><span class="val">محمد جواد زمانی</span></div>
-                    <div class="info-item"><i class="fa-solid fa-mask"></i><span class="key">لقب:</span><span class="val">با جنبه ترین</span></div>
-                    <div class="info-item"><i class="fa-solid fa-map-location-dot"></i><span class="key">شهر:</span><span class="val">اهواز</span></div>
-                    <div class="info-item"><i class="fa-solid fa-hourglass-half"></i><span class="key">سن:</span><span class="val">14</span></div>
+                    <div class="info-item"><i class="fa-solid fa-user-ninja"></i><span class="key">نام:</span><span class="val">محمد جواد زمانی</span></div>
+                    <div class="info-item"><i class="fa-solid fa-bolt"></i><span class="key">لقب:</span><span class="val">با جنبه ترین</span></div>
+                    <div class="info-item"><i class="fa-solid fa-location-arrow"></i><span class="key">شهر:</span><span class="val">اهواز</span></div>
+                    <div class="info-item"><i class="fa-solid fa-calendar-check"></i><span class="key">تولد:</span><span class="val en">1390/07/06</span></div>
                 </div>
                 <div class="description-box">
-                    <span class="description-title">MISSION</span>
+                    <span class="description-title">ABOUT ME</span>
                     <p>sound Unseen</p>
                 </div>
             </div>
