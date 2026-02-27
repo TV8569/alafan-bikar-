@@ -11,251 +11,290 @@
 
         :root {
             --bg-deep: #050508;
-            --card-bg: rgba(255, 255, 255, 0.03);
-            --neon-red: #ff2d55;
+            --win-bg: rgba(12, 12, 18, 0.95);
             --neon-blue: #00f2ff;
+            --neon-red: #ff2d55;
             --text-white: #ffffff;
-            --transition: all 0.3s ease;
+            --menu-bg: rgba(15, 15, 25, 0.98);
         }
 
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; outline: none; }
 
         body {
             background-color: var(--bg-deep);
             color: var(--text-white);
-            font-family: 'Orbitron', sans-serif; /* اولویت با فونت انگلیسی برای گالری */
+            font-family: 'Orbitron', 'Vazirmatn', sans-serif;
+            margin: 0; padding: 0;
+            height: 100vh; width: 100vw;
+            overflow: hidden;
+            background-image: radial-gradient(circle at 50% 50%, #151525 0%, #050508 100%);
+            user-select: none;
+        }
+
+        .bg-glow {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, transparent 40%, rgba(0, 242, 255, 0.03) 50%, transparent 60%);
+            background-size: 200% 200%;
+            animation: sweep 8s ease-in-out infinite;
+        }
+        @keyframes sweep { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+        .top-bar {
+            height: 50px;
+            padding: 0 25px;
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.6);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            z-index: 10001;
+        }
+
+        .top-bar h1 {
+            font-size: 0.9rem;
+            letter-spacing: 5px;
             margin: 0;
-            padding: 40px 20px;
+            background: linear-gradient(90deg, #fff, var(--neon-blue));
+            -webkit-background-clip: text;
+            background-clip: text; /* رفع ارور background-clip */
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 5px rgba(0, 242, 255, 0.5));
+        }
+
+        #desktop-area {
+            position: relative;
+            width: 100%;
+            height: calc(100vh - 50px);
+        }
+
+        .desktop-icon {
+            position: absolute;
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 100vh;
-            overflow-x: hidden;
-            /* حفظ تم پس‌زمینه صفحات قبل */
-            background-image: 
-                radial-gradient(circle at 5% 5%, rgba(255, 45, 85, 0.1) 0%, transparent 30%),
-                radial-gradient(circle at 95% 95%, rgba(0, 242, 255, 0.1) 0%, transparent 30%);
+            cursor: grab;
+            width: 105px;
+            padding: 12px;
+            border-radius: 12px;
+            transition: background 0.3s, transform 0.2s;
+            z-index: 10;
         }
 
-        /* انیمیشن پس‌زمینه متحرک مشابه SQUAD و INDEX */
-        .bg-glow {
+        .desktop-icon:hover { background: rgba(255, 255, 255, 0.05); }
+        .desktop-icon i { font-size: 3.2rem; color: #f3d03e; margin-bottom: 8px; }
+        .desktop-icon span { font-size: 0.7rem; text-align: center; font-weight: 600; text-shadow: 0 2px 4px #000; }
+
+        /* استایل پنجره‌ها */
+        .window {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: linear-gradient(45deg, transparent 48%, rgba(255, 45, 85, 0.05) 50%, transparent 52%);
-            background-size: 200% 200%;
-            animation: sweep 10s linear infinite;
+            width: 650px;
+            height: 450px;
+            background: var(--win-bg);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 14px;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.8);
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+            overflow: hidden;
+            animation: winOpen 0.2s ease-out;
+            transition: width 0.3s, height 0.3s, top 0.3s, left 0.3s, border-radius 0.3s;
         }
 
-        @keyframes sweep {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
+        @keyframes winOpen { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+
+        /* کلاس برای حالت Maximize */
+        .window.maximized {
+            width: 100vw !important;
+            height: calc(100vh - 50px) !important;
+            top: 50px !important;
+            left: 0 !important;
+            border-radius: 0;
+            z-index: 9000 !important;
         }
 
-        .explorer-window {
-            width: 100%;
-            max-width: 1000px;
-            background: rgba(20, 20, 35, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 24px;
-            backdrop-filter: blur(25px);
-            padding: 35px;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.6);
-            z-index: 1;
-        }
-
-        .header-toolbar {
+        .title-bar {
+            height: 42px;
+            background: rgba(255, 255, 255, 0.03);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            direction: ltr; /* اطمینان از چپ به راست بودن نوار ابزار */
+            padding: 0 15px;
+            cursor: move;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .path-display {
-            font-size: 0.85rem;
-            color: var(--neon-blue);
-            letter-spacing: 2px;
-            font-weight: 700;
-        }
+        .win-controls { display: flex; align-items: center; gap: 5px; }
 
-        .sort-controls {
-            display: flex;
-            gap: 12px;
-        }
-
-        .sort-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .win-btn {
+            width: 32px; height: 32px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 6px; cursor: pointer;
+            font-size: 0.8rem; transition: 0.2s;
             color: #888;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.7rem;
-            font-family: 'Orbitron', sans-serif;
-            transition: var(--transition);
         }
 
-        .sort-btn:hover, .sort-btn.active {
-            border-color: var(--neon-red);
-            color: white;
-            background: rgba(255, 45, 85, 0.15);
-        }
+        .win-btn:hover { background: rgba(255, 255, 255, 0.1); color: white; }
+        .win-btn.close-btn:hover { background: #e81123; color: white; }
 
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr); 
-            gap: 25px;
-            direction: ltr; /* مرتب‌سازی فولدرها از چپ به راست */
-        }
-
-        .folder-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            border-radius: 18px;
-            padding: 30px 15px;
-            text-decoration: none;
-            color: white;
+        .address-bar {
+            height: 38px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
             display: flex;
-            flex-direction: column;
             align-items: center;
-            transition: var(--transition);
+            padding: 0 18px;
+            font-size: 0.7rem; color: #666;
         }
 
-        .folder-card:hover {
-            background: rgba(255, 255, 255, 0.08);
-            transform: translateY(-8px);
-            border-color: var(--neon-blue);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-        }
+        .win-content { flex: 1; display: flex; align-items: center; justify-content: center; }
+        .empty-state { text-align: center; opacity: 0.15; }
+        .empty-state i { font-size: 5rem; margin-bottom: 15px; }
 
-        .folder-card i {
-            font-size: 3.8rem;
-            color: #f3d03e; 
-            margin-bottom: 18px;
-            filter: drop-shadow(0 5px 15px rgba(243, 208, 62, 0.2));
-            transition: 0.3s;
+        #context-menu {
+            position: fixed; display: none; background: var(--menu-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px;
+            z-index: 20000; min-width: 170px; padding: 6px;
+            backdrop-filter: blur(10px);
         }
-
-        .folder-card:hover i {
-            color: var(--neon-blue);
-            filter: drop-shadow(0 0 20px var(--neon-blue));
-            transform: scale(1.05);
-        }
-
-        .folder-name {
-            font-weight: 700;
-            font-size: 0.8rem;
-            letter-spacing: 1.5px;
-            margin-bottom: 6px;
-            text-transform: uppercase;
-        }
-
-        .photo-count {
-            font-size: 0.65rem;
-            color: #555;
-            letter-spacing: 1px;
-        }
-
-        @media (max-width: 768px) {
-            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-
-        @media (max-width: 480px) {
-            .gallery-grid { grid-template-columns: 1fr; }
-            .header-toolbar { flex-direction: column; gap: 15px; align-items: flex-start; }
-        }
+        .menu-item { padding: 10px 15px; font-size: 0.75rem; color: #bbb; border-radius: 5px; cursor: pointer; display: flex; justify-content: space-between; }
+        .menu-item:hover { background: var(--neon-blue); color: #000; font-weight: bold; }
     </style>
 </head>
-<body>
+<body onclick="hideMenu()" oncontextmenu="return false;">
 
     <div class="bg-glow"></div>
 
-    <div class="explorer-window">
-        <div class="header-toolbar">
-            <div class="path-display">
-                <i class="fa-solid fa-folder-open" style="margin-right: 10px;"></i> C: / ALAFAN_BIKAR / GALLERY
-            </div>
-            <div class="sort-controls">
-                <button class="sort-btn" onclick="sortFolders('name')">NAME A-Z</button>
-                <button class="sort-btn" onclick="sortFolders('count')">IMAGES</button>
-            </div>
-        </div>
+    <div class="top-bar">
+        <h1>GALLERY</h1>
+    </div>
 
-        <div class="gallery-grid" id="folderGrid">
-            <a href="gallery/002" class="folder-card" data-name="002" data-count="0">
-                <i class="fa-solid fa-folder"></i>
-                <span class="folder-name">002</span>
-                <span class="photo-count">0 PHOTOS</span>
-            </a>
-            <a href="gallery/Abbas" class="folder-card" data-name="Abbas" data-count="0">
-                <i class="fa-solid fa-folder"></i>
-                <span class="folder-name">Abbas</span>
-                <span class="photo-count">0 PHOTOS</span>
-            </a>
-            <a href="gallery/Dada" class="folder-card" data-name="Dada" data-count="0">
-                <i class="fa-solid fa-folder"></i>
-                <span class="folder-name">Dada</span>
-                <span class="photo-count">0 PHOTOS</span>
-            </a>
-            <a href="gallery/FameAx" class="folder-card" data-name="FameAx" data-count="0">
-                <i class="fa-solid fa-folder"></i>
-                <span class="folder-name">FameAx</span>
-                <span class="photo-count">0 PHOTOS</span>
-            </a>
-            <a href="gallery/Miner" class="folder-card" data-name="Miner" data-count="0">
-                <i class="fa-solid fa-folder"></i>
-                <span class="folder-name">Miner</span>
-                <span class="photo-count">0 PHOTOS</span>
-            </a>
-            <a href="gallery/MRWl" class="folder-card" data-name="MRWl" data-count="0">
-                <i class="fa-solid fa-folder"></i>
-                <span class="folder-name">MRWl</span>
-                <span class="photo-count">0 PHOTOS</span>
-            </a>
-            <a href="gallery/Okhtapoo3" class="folder-card" data-name="Okhtapoo3" data-count="0">
-                <i class="fa-solid fa-folder"></i>
-                <span class="folder-name">Okhtapoo3</span>
-                <span class="photo-count">0 PHOTOS</span>
-            </a>
-            <a href="gallery/Seyed" class="folder-card" data-name="Seyed" data-count="0">
-                <i class="fa-solid fa-folder"></i>
-                <span class="folder-name">Seyed</span>
-                <span class="photo-count">0 PHOTOS</span>
-            </a>
-            <a href="gallery/Vakal" class="folder-card" data-name="Vakal" data-count="0">
-                <i class="fa-solid fa-folder"></i>
-                <span class="folder-name">Vakal</span>
-                <span class="photo-count">0 PHOTOS</span>
-            </a>
-        </div>
+    <div id="desktop-area"></div>
+
+    <div id="context-menu">
+        <div class="menu-item" style="pointer-events:none;"><span id="menuName">Name</span></div>
+        <div class="menu-item"><span id="menuCount">0 Photos</span> <i class="fa-solid fa-image"></i></div>
+        <div class="menu-item" onclick="location.reload()"><span>Refresh</span> <i class="fa-solid fa-rotate"></i></div>
     </div>
 
     <script>
-        function sortFolders(type) {
-            const grid = document.getElementById('folderGrid');
-            const folders = Array.from(grid.getElementsByClassName('folder-card'));
+        const folders = [
+            { name: "002", count: 0 }, { name: "Abbas", count: 0 },
+            { name: "Dada", count: 0 }, { name: "FameAx", count: 0 },
+            { name: "Miner", count: 0 }, { name: "MRWl", count: 0 },
+            { name: "Okhtapoo3", count: 0 }, { name: "Seyed", count: 0 },
+            { name: "Vakal", count: 0 }, { name: "Ali1021", count: 0 }
+        ];
 
-            folders.sort((a, b) => {
-                if (type === 'name') {
-                    return a.getAttribute('data-name').localeCompare(b.getAttribute('data-name'));
-                } else {
-                    return b.getAttribute('data-count') - a.getAttribute('data-count');
-                }
+        folders.sort((a, b) => a.name.localeCompare(b.name, undefined, {sensitivity: 'base'}));
+        
+        const desktop = document.getElementById('desktop-area');
+        let zIndexCounter = 1000;
+
+        function renderIcons() {
+            desktop.innerHTML = '';
+            const iconW = 125, iconH = 135, pad = 30;
+            const cols = Math.floor((window.innerWidth - pad) / iconW);
+
+            folders.forEach((f, i) => {
+                const div = document.createElement('div');
+                div.className = 'desktop-icon';
+                div.style.left = (pad + (i % cols * iconW)) + 'px';
+                div.style.top = (pad + (Math.floor(i / cols) * iconH)) + 'px';
+                div.innerHTML = `<i class="fa-solid fa-folder"></i><span>${f.name}</span>`;
+                
+                makeDraggable(div, false);
+                div.ondblclick = () => openFolder(f.name);
+                div.oncontextmenu = (e) => {
+                    e.preventDefault(); e.stopPropagation();
+                    showMenu(e.pageX, e.pageY, f.name, f.count);
+                };
+                desktop.appendChild(div);
             });
-
-            folders.forEach(folder => grid.appendChild(folder));
-            
-            document.querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active'));
-            event.currentTarget.classList.add('active');
         }
+
+        function toggleMaximize(btn) {
+            const win = btn.closest('.window');
+            win.classList.toggle('maximized');
+            // تغییر آیکون بین حالت بزرگ و کوچک
+            const icon = btn.querySelector('i');
+            if (win.classList.contains('maximized')) {
+                icon.className = 'fa-solid fa-compress';
+            } else {
+                icon.className = 'fa-solid fa-expand';
+            }
+        }
+
+        function openFolder(name) {
+            const win = document.createElement('div');
+            win.className = 'window';
+            win.style.left = '15%'; win.style.top = '15%';
+            win.style.zIndex = ++zIndexCounter;
+            
+            win.innerHTML = `
+                <div class="title-bar" onmousedown="focusWin(this.parentElement)">
+                    <div class="win-title"><i class="fa-solid fa-folder-open" style="color:var(--neon-blue)"></i> Explorer | ${name}</div>
+                    <div class="win-controls">
+                        <div class="win-btn"><i class="fa-solid fa-minus"></i></div>
+                        <div class="win-btn" onclick="toggleMaximize(this)"><i class="fa-solid fa-expand"></i></div>
+                        <div class="win-btn close-btn" onclick="this.parentElement.parentElement.parentElement.remove()"><i class="fa-solid fa-xmark"></i></div>
+                    </div>
+                </div>
+                <div class="address-bar"><i class="fa-solid fa-house"></i> C: > Users > Alafan > Gallery > ${name}</div>
+                <div class="win-content">
+                    <div class="empty-state">
+                        <i class="fa-solid fa-cloud-moon"></i>
+                        <p style="letter-spacing:3px; font-size:0.8rem;">NO DATA FOUND</p>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(win);
+            makeDraggable(win, true);
+        }
+
+        function focusWin(el) { el.style.zIndex = ++zIndexCounter; }
+
+        function makeDraggable(el, isWindow) {
+            let p1 = 0, p2 = 0, p3 = 0, p4 = 0;
+            const handle = isWindow ? el.querySelector('.title-bar') : el;
+
+            handle.onmousedown = (e) => {
+                if (e.button !== 0 || el.classList.contains('maximized')) return;
+                focusWin(el);
+                p3 = e.clientX; p4 = e.clientY;
+                document.onmouseup = () => { document.onmouseup = null; document.onmousemove = null; };
+                document.onmousemove = (e) => {
+                    p1 = p3 - e.clientX; p2 = p4 - e.clientY;
+                    p3 = e.clientX; p4 = e.clientY;
+                    
+                    let newT = el.offsetTop - p2;
+                    let newL = el.offsetLeft - p1;
+
+                    const limitT = isWindow ? 50 : 0;
+                    const maxT = window.innerHeight - el.offsetHeight;
+                    const maxL = window.innerWidth - el.offsetWidth;
+
+                    el.style.top = Math.max(limitT, Math.min(newT, maxT)) + "px";
+                    el.style.left = Math.max(0, Math.min(newL, maxL)) + "px";
+                };
+            };
+        }
+
+        function showMenu(x, y, name, count) {
+            const m = document.getElementById('context-menu');
+            document.getElementById('menuName').innerText = name.toUpperCase();
+            document.getElementById('menuCount').innerText = count + " Photos";
+            m.style.display = 'block'; 
+            m.style.left = Math.min(x, window.innerWidth - 180) + 'px';
+            m.style.top = Math.min(y, window.innerHeight - 120) + 'px';
+        }
+
+        function hideMenu() { document.getElementById('context-menu').style.display = 'none'; }
+
+        renderIcons();
+        window.onresize = renderIcons;
     </script>
 </body>
 </html>
