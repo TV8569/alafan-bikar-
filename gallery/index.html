@@ -49,7 +49,7 @@
             display: flex; align-items: center;
             width: 220px; transition: all 0.4s var(--ease-out-expo);
         }
-        .search-container:focus-within { border-color: var(--neon-color); width: 280px; box-shadow: 0 0 15px rgba(0, 242, 255, 0.2); }
+        .search-container:focus-within { border-color: var(--neon-color); width: 300px; box-shadow: 0 0 15px rgba(0, 242, 255, 0.2); }
         .search-container input { background: transparent; border: none; color: white; padding-left: 10px; width: 100%; font-size: 0.75rem; }
 
         #desktop-area { position: relative; width: 100%; height: calc(100vh - 55px); padding: 20px; }
@@ -64,11 +64,11 @@
         .desktop-icon.hidden { opacity: 0; pointer-events: none; transform: scale(0.5); }
         .desktop-icon:hover { background: rgba(255, 255, 255, 0.08); transform: scale(1.1); }
         .desktop-icon i { font-size: 2.4rem; color: #f3d03e; margin-bottom: 6px; pointer-events: none; }
-        .desktop-icon span { font-size: 0.65rem; font-weight: 600; text-align: center; pointer-events: none; }
+        .desktop-icon span { font-size: 0.65rem; font-weight: 600; text-align: center; pointer-events: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 80px; }
 
         /* Window Style */
         .window {
-            position: fixed; width: 720px; height: 500px;
+            position: fixed; width: 750px; height: 520px;
             background: var(--win-bg); border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 12px; box-shadow: 0 40px 80px rgba(0,0,0,0.8);
             display: flex; flex-direction: column; z-index: 1000;
@@ -77,17 +77,17 @@
         }
         .window.maximized { width: 100vw !important; height: calc(100vh - 55px) !important; top: 55px !important; left: 0 !important; border-radius: 0; }
 
-        .title-bar { height: 40px; background: rgba(255,255,255,0.03); display: flex; justify-content: space-between; align-items: stretch; cursor: move; }
+        .title-bar { height: 42px; background: rgba(255,255,255,0.03); display: flex; justify-content: space-between; align-items: stretch; cursor: move; }
         .win-title-container { flex: 1; display: flex; align-items: center; padding-left: 15px; pointer-events: none; }
         .win-controls { display: flex; align-items: stretch; }
         .win-btn { width: 46px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; cursor: pointer; transition: 0.2s; color: #888; }
         .win-btn:hover { background: rgba(255, 255, 255, 0.1); color: white; }
         .win-btn.close-btn:hover { background: #e81123 !important; }
 
-        /* Custom Scrollbar */
+        /* Win Content */
         .win-content { 
             flex: 1; overflow-y: auto; padding: 20px; 
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); 
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(115px, 1fr)); 
             gap: 15px; align-content: start; 
         }
         .win-content::-webkit-scrollbar { width: 6px; }
@@ -100,16 +100,16 @@
         }
         .file-item.hidden { display: none; }
         .file-item:hover { background: rgba(255,255,255,0.1); transform: translateY(-3px); }
-        .file-item img { width: 85px; height: 85px; object-fit: cover; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); }
-        .file-item span { font-size: 0.6rem; color: #ccc; text-align: center; }
+        .file-item img { width: 90px; height: 90px; object-fit: cover; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); background: #111; }
+        .file-item span { font-size: 0.6rem; color: #ccc; text-align: center; max-width: 100px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 
         /* Photo Viewer */
         #photo-viewer {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.95);
+            position: fixed; inset: 0; background: rgba(0,0,0,0.96);
             z-index: 50000; display: none; align-items: center; justify-content: center;
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(20px);
         }
-        #photo-viewer img { max-width: 85%; max-height: 85%; object-fit: contain; box-shadow: 0 0 50px rgba(0,0,0,1); animation: zoomIn 0.3s var(--ease-out-expo); }
+        #photo-viewer img { max-width: 85%; max-height: 85%; object-fit: contain; box-shadow: 0 0 60px rgba(0,0,0,1); animation: zoomIn 0.3s var(--ease-out-expo); }
         
         .nav-btn {
             position: absolute; top: 50%; transform: translateY(-50%);
@@ -121,7 +121,8 @@
         .nav-btn:hover { background: var(--neon-color); color: black; box-shadow: 0 0 20px var(--neon-color); }
         .prev-btn { left: 40px; }
         .next-btn { right: 40px; }
-        .viewer-close { position: absolute; top: 30px; right: 40px; font-size: 2.5rem; color: white; cursor: pointer; opacity: 0.5; z-index: 50002; }
+        .viewer-close { position: absolute; top: 30px; right: 40px; font-size: 2.8rem; color: white; cursor: pointer; opacity: 0.6; z-index: 50002; transition: 0.3s; }
+        .viewer-close:hover { opacity: 1; transform: rotate(90deg); }
 
         /* Context Menu */
         .custom-menu {
@@ -133,12 +134,13 @@
         .menu-item { padding: 9px 15px; font-size: 0.75rem; cursor: pointer; color: #bbb; display: flex; align-items: center; gap: 10px; }
         .menu-item:hover { background: var(--neon-color); color: black; font-weight: bold; }
 
-        @keyframes zoomIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        @keyframes winOpen { from { opacity: 0; transform: scale(0.8) translateY(30px); } }
+        @keyframes zoomIn { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        @keyframes winOpen { from { opacity: 0; transform: scale(0.85) translateY(20px); } }
     </style>
 </head>
 <body onclick="hideMenus()" oncontextmenu="showDesktopMenu(event)">
 
+    <!-- Image Viewer -->
     <div id="photo-viewer">
         <div class="viewer-close" onclick="closeViewer()">&times;</div>
         <div class="nav-btn prev-btn" onclick="navImage(-1)"><i class="fa-solid fa-chevron-left"></i></div>
@@ -147,16 +149,17 @@
     </div>
 
     <div class="top-bar">
-        <h1 style="font-size: 0.8rem; letter-spacing: 4px; color: var(--neon-color);">GALLERY</h1>
+        <h1 style="font-size: 0.8rem; letter-spacing: 4px; color: var(--neon-color); font-weight: bold;">GALLERY</h1>
         <div class="search-container">
             <i class="fa-solid fa-magnifying-glass" style="opacity: 0.3; font-size: 0.7rem;"></i>
-            <input type="text" id="searchInput" placeholder="Search Desktop & Folders..." oninput="globalSearch(this.value)">
+            <input type="text" id="searchInput" placeholder="Search files & folders..." oninput="globalSearch(this.value)">
         </div>
         <div id="clock" style="color: var(--neon-color); font-size: 0.9rem; font-weight: bold;">00:00:00</div>
     </div>
 
     <div id="desktop-area"></div>
 
+    <!-- Menus -->
     <div id="desktop-menu" class="custom-menu">
         <div class="menu-item" onclick="toggleTheme()"><i class="fa-solid fa-wand-magic-sparkles"></i> Switch Theme</div>
         <div class="menu-item" onclick="location.reload()"><i class="fa-solid fa-rotate"></i> Refresh</div>
@@ -168,6 +171,7 @@
 
     <script>
         const folderNames = ["002", "Abbas", "Ali1021", "Dada", "FameAx", "Miner", "MRWl", "Okhtapoo3", "Seyed", "Vakal"];
+        
         const folderData = {
             "002": [
                 "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/002/002.png",
@@ -195,6 +199,52 @@
                 "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/002/002%20(23).png",
                 "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/002/002%20(24).png",
                 "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/002/002%20(25).png"
+            ],
+            "Ali1021": [
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(5).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(6).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(7).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(8).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(9).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(10).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(11).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(12).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(13).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(14).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(15).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(16).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(17).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(18).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(19).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(20).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(21).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(22).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(23).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(24).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(25).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(26).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(27).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(28).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(29).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(30).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(31).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(32).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(33).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(34).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(35).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(36).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(37).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(38).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(39).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(40).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(41).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(42).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(43).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(44).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(45).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(46).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(47).png",
+                "https://s27.uupload.ir/files/amirabbas8585/Alafan%20Bikar/gallery/Ali1021/Ali1021%20(48).png"
             ]
         };
 
@@ -202,22 +252,25 @@
         let currentIndex = 0;
         let zIndexCounter = 1000;
 
-        // --- Search System ---
+        // Natural sort helper (for alphanumeric sorting)
+        const naturalSort = (a, b) => {
+            return a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' });
+        };
+
+        // Global Search
         function globalSearch(query) {
             const q = query.toLowerCase();
-            // Filter Desktop Icons
             document.querySelectorAll('.desktop-icon').forEach(icon => {
                 const name = icon.querySelector('span').innerText.toLowerCase();
                 icon.classList.toggle('hidden', !name.includes(q));
             });
-            // Filter Inside Open Windows
             document.querySelectorAll('.file-item').forEach(file => {
                 const name = file.querySelector('span').innerText.toLowerCase();
                 file.classList.toggle('hidden', !name.includes(q));
             });
         }
 
-        // --- Photo Viewer ---
+        // Photo Viewer
         function openPhoto(index, list) {
             currentGallery = list; currentIndex = index;
             document.getElementById('full-res-img').src = currentGallery[currentIndex];
@@ -229,25 +282,36 @@
         }
         function closeViewer() { document.getElementById('photo-viewer').style.display = 'none'; }
 
-        // --- Windows Management ---
+        // Window Management
         function openFolder(name) {
             const win = document.createElement('div');
             win.className = 'window';
-            win.style.left = '120px'; win.style.top = '80px';
+            win.style.left = '140px'; win.style.top = '90px';
             win.style.zIndex = ++zIndexCounter;
             
             let contentHtml = '';
             if (folderData[name]) {
-                folderData[name].forEach((url, idx) => {
-                    const fileName = decodeURIComponent(url.split('/').pop().replace('.png', ''));
+                // Get filenames and original URLs
+                const files = folderData[name].map(url => ({
+                    url,
+                    name: decodeURIComponent(url.split('/').pop().replace('.png', ''))
+                }));
+
+                // SORT FILES BY NAME
+                files.sort((a, b) => naturalSort(a.name, b.name));
+
+                // Create a sorted list of URLs for navigation
+                const sortedUrls = files.map(f => f.url);
+
+                files.forEach((file, idx) => {
                     contentHtml += `
-                        <div class="file-item" onclick="openPhoto(${idx}, folderData['${name}'])">
-                            <img src="${url}" loading="lazy">
-                            <span>${fileName}</span>
+                        <div class="file-item" onclick="openPhoto(${idx}, ${JSON.stringify(sortedUrls).replace(/"/g, "'")})">
+                            <img src="${file.url}" loading="lazy">
+                            <span title="${file.name}">${file.name}</span>
                         </div>`;
                 });
             } else {
-                contentHtml = `<div style="grid-column: 1/-1; text-align:center; opacity:0.1; margin-top:100px;"><i class="fa-solid fa-images" style="font-size:4rem;"></i><p>EMPTY</p></div>`;
+                contentHtml = `<div style="grid-column: 1/-1; text-align:center; opacity:0.1; margin-top:120px;"><i class="fa-solid fa-images" style="font-size:4rem;"></i><p>FOLDER EMPTY</p></div>`;
             }
 
             win.innerHTML = `
@@ -264,6 +328,7 @@
                 <div class="win-content">${contentHtml}</div>`;
             document.body.appendChild(win);
             makeDraggable(win, true);
+            win.onmousedown = () => win.style.zIndex = ++zIndexCounter;
         }
 
         function toggleMax(btn) { btn.closest('.window').classList.toggle('maximized'); }
@@ -290,9 +355,8 @@
             let p1 = 0, p2 = 0, p3 = 0, p4 = 0;
             const handle = isWin ? el.querySelector('.title-bar') : el;
             handle.onmousedown = (e) => {
-                if (e.target.closest('.win-btn')) return;
+                if (e.target.closest('.win-btn') || el.classList.contains('maximized')) return;
                 p3 = e.clientX; p4 = e.clientY;
-                el.style.zIndex = ++zIndexCounter;
                 document.onmouseup = () => { document.onmouseup = null; document.onmousemove = null; };
                 document.onmousemove = (e) => {
                     p1 = p3 - e.clientX; p2 = p4 - e.clientY;
@@ -303,7 +367,7 @@
             };
         }
 
-        // --- Context Menu Handlers ---
+        // Menu Logic
         function showDesktopMenu(e) {
             e.preventDefault(); hideMenus();
             const m = document.getElementById('desktop-menu');
@@ -320,13 +384,16 @@
         function hideMenus() { document.querySelectorAll('.custom-menu').forEach(m => m.style.display = 'none'); }
         function toggleTheme() { document.body.classList.toggle('theme-red'); }
 
-        // Initial Setup
+        // Init
         setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-GB'); }, 1000);
         window.addEventListener('keydown', (e) => {
-            if (e.key === "ArrowRight") navImage(1);
-            if (e.key === "ArrowLeft") navImage(-1);
-            if (e.key === "Escape") closeViewer();
+            if (document.getElementById('photo-viewer').style.display === 'flex') {
+                if (e.key === "ArrowRight") navImage(1);
+                if (e.key === "ArrowLeft") navImage(-1);
+                if (e.key === "Escape") closeViewer();
+            }
         });
+
         renderIcons();
         window.onresize = renderIcons;
     </script>
